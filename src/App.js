@@ -1,12 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Register from './components/Register';
+import Login from './components/Login'
+import Dashboard from './components/Dashboard'
+import { Routes, Route } from 'react-router-dom';
+import TokenContext from './myContext/TokenContext';
+import DashContext from './myContext/DashContext';
+import { useState } from 'react';
+import Aos from 'aos';
+import { Toaster } from 'sonner';
 
 function App() {
+  Aos.init()
+  const [token, setToken] = useState("")
+  const [dash, setDash] = useState({})
   return (
-    <div className="">
-      <h2 className='text-center'>Wish you the best!</h2>
-      <p className='text-center'>Make sure to create your branch and follow the instructions in readme.md</p>
-    </div>
+    <>
+      <TokenContext.Provider value={{token, setToken}}>
+      <DashContext.Provider value={{dash, setDash}}>
+        <Toaster position="top-right" richColors/>
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/register' element={<Register />}/>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Routes>
+      </DashContext.Provider>
+      </TokenContext.Provider>
+    </>
   );
 }
 
